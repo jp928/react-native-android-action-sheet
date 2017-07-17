@@ -46,6 +46,17 @@ public class ActionSheetModule extends ReactContextBaseJavaModule {
             }
         }
 
+        if (params.hasKey("description")) {
+
+            int descriptionHeight = 0;
+            if(params.hasKey("descriptionHeight")) {
+                descriptionHeight = params.getInt("descriptionHeight");
+            }
+
+            String description = params.getString("description");
+            builder.setDescription(description, Color.BLACK, descriptionHeight);
+        }
+
         int cancelBtnIndex = -1;
         if (params.hasKey("optionBtns")) {
             ReadableArray optionBtns = params.getArray("optionBtns");
