@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by ZJY on 2016/10/7.
- */
 public class ActionSheetPackage implements ReactPackage {
 
     @Override

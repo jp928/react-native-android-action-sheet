@@ -15,9 +15,6 @@ import java.util.List;
 
 import cn.zjy.actionsheet.ActionSheet;
 
-/**
- * Created by ZJY on 2016/10/7.
- */
 public class ActionSheetModule extends ReactContextBaseJavaModule {
     public ActionSheetModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -133,6 +130,17 @@ public class ActionSheetModule extends ReactContextBaseJavaModule {
         }
         builder.setCancelBtn(btnTitles.get(cancelBtnIndex), tintColor);
         btnTitles.remove(cancelBtnIndex);
+
+        if (param.hasKey("description")) {
+
+            int descriptionHeight = 0;
+            if(param.hasKey("descriptionHeight")) {
+                descriptionHeight = param.getInt("descriptionHeight");
+            }
+
+            String description = param.getString("description");
+            builder.setDescription(description, tintColor, descriptionHeight);
+        }
 
         int[] colors = new int[btnTitles.size()];
         for (int i = 0; i < colors.length; i++) {

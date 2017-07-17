@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -24,9 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-/**
- * Created by zongjingyao on 16/10/4.
- */
+import cn.zjy.actionsheet.rn.R;
 
 public class ActionSheet extends DialogFragment implements View.OnClickListener {
     public static final String TAG = "ActionSheet";
@@ -34,6 +33,12 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
     public static final String TITLE = "title";
     public static final String TITLE_COLOR = "title_color";
     public static final String TITLE_TEXT_SIZE = "title_text_size";
+
+    public static final String DESCRIPTION = "description";
+    public static final String DESCRIPTION_COLOR = "description_color";
+    public static final String DESCRIPTION_FONT_SIZE = "description_font_size";
+    public static final String DESCRIPTION_HEIGHT = "description_height";
+
 
     public static final String CANCEL_BTN_TITLE = "cancel_btn_title";
     public static final String CANCEL_BTN_TITLE_COLOR = "cancel_btn_title_color";
@@ -124,6 +129,10 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
         layout.setPadding(padding, 0, padding, padding);
 
         addTitle(layout);
+
+        // Add description
+        addDescription(layout);
+
         addOtherBtns(layout);
         addCancelBtn(layout);
 
@@ -137,7 +146,9 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
 
         int titleColor = args.getInt(TITLE_COLOR, DEFAULT_TITLE_TEXT_COLOR);
         float textSize = args.getFloat(TITLE_TEXT_SIZE, DEFAULT_TITLE_TEXT_SIZE);
+
         int titleHeight = (int) getActivity().getResources().getDimension(R.dimen.action_sheet_title_height);
+
         int bottomMargin = (int) getActivity().getResources().getDimension(R.dimen.action_sheet_btn_gap);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 titleHeight);
@@ -150,11 +161,41 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
         }
         TextView tvTitle = new TextView(getActivity());
         tvTitle.setText(title);
+        tvTitle.setTypeface(null, Typeface.BOLD);
         tvTitle.setTextSize(textSize);
         tvTitle.setTextColor(titleColor);
         tvTitle.setGravity(Gravity.CENTER);
         tvTitle.setBackgroundResource(background);
         layout.addView(tvTitle, lp);
+    }
+
+    private void addDescription(LinearLayout layout) {
+        Bundle args = getArguments();
+        String desc = args.getString(DESCRIPTION);
+        if (TextUtils.isEmpty(desc)) return;
+
+        int titleColor = args.getInt(DESCRIPTION_COLOR, DEFAULT_TITLE_TEXT_COLOR);
+        float textSize = args.getFloat(DESCRIPTION_FONT_SIZE, DEFAULT_TITLE_TEXT_SIZE);
+
+        int descriptionHeight = args.getInt(DESCRIPTION_HEIGHT);
+        int bottomMargin = (int) getActivity().getResources().getDimension(R.dimen.action_sheet_btn_gap);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                descriptionHeight);
+        lp.bottomMargin = bottomMargin;
+
+        int background = R.drawable.action_sheet_other_btns_bg_middle;
+        String[] titles = args.getStringArray(OTHER_BTN_TITLES);
+        if (titles == null || titles.length == 0) {
+            background = R.drawable.action_sheet_other_btns_bg_top;
+        }
+        TextView tvDescription = new TextView(getActivity());
+        tvDescription.setPadding(50, 10, 50, 10);
+        tvDescription.setText(desc);
+        tvDescription.setTextSize(textSize);
+        tvDescription.setTextColor(titleColor);
+        tvDescription.setGravity(Gravity.LEFT);
+        tvDescription.setBackgroundResource(background);
+        layout.addView(tvDescription, lp);
     }
 
     private void addOtherBtns(LinearLayout layout) {
@@ -273,6 +314,10 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
 
     public static class Builder {
         private String mTitle;
+        private String mDescription;
+        private int mDescriptionColor;
+        private float mDescriptionTextSize = -1;
+        private int mDescriptionHeight = 200;
         private int mTitleColor;
         private float mTitleTextSize = -1;
         private String mCancelBtnTitle;
@@ -290,6 +335,16 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
         public Builder setTitle(String title, int titleColor) {
             mTitle = title;
             mTitleColor = titleColor;
+            return this;
+        }
+
+        public Builder setDescription(String description, int descriptionColor, int descriptionHeight) {
+            mDescription = description;
+            mDescriptionColor = descriptionColor;
+            if(descriptionHeight > 0) {
+                mDescriptionHeight = descriptionHeight;
+            }
+
             return this;
         }
 
@@ -368,6 +423,18 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
             ActionSheet actionSheet = new ActionSheet();
             actionSheet.setActionSheetListener(mActionSheetListener);
             actionSheet.setArguments(bundle);
+
+            /**
+             * Description
+             */
+            bundle.putString(DESCRIPTION, mDescription);
+            bundle.putInt(DESCRIPTION_COLOR, mDescriptionColor);
+            bundle.putInt(DESCRIPTION_HEIGHT, mDescriptionHeight);
+
+            if (mDescriptionTextSize > 0) {
+                bundle.putFloat(DESCRIPTION_FONT_SIZE, mDescriptionTextSize);
+            }
+
 
             return actionSheet;
         }
