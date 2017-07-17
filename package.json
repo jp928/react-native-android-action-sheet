@@ -1,6 +1,6 @@
 {
     "name": "@2hats/react-native-android-action-sheet",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "ActionSheet on Android for React Native",
     "main": "index.js",
     "author": "Jingyao Zong <zongjingyao@gmail.com> (https://github.com/zongjingyao)",
