@@ -46,15 +46,15 @@ public class ActionSheetModule extends ReactContextBaseJavaModule {
             }
         }
 
-        if (params.hasKey("description")) {
+        if (params.hasKey("message")) {
 
-            int descriptionHeight = 0;
-            if(params.hasKey("descriptionHeight")) {
-                descriptionHeight = params.getInt("descriptionHeight");
+            int messageHeight = 0;
+            if(params.hasKey("messageHeight")) {
+                messageHeight = params.getInt("messageHeight");
             }
 
-            String description = params.getString("description");
-            builder.setDescription(description, Color.BLACK, descriptionHeight);
+            String message = params.getString("message");
+            builder.setMessage(message,  Color.BLACK, messageHeight);
         }
 
         int cancelBtnIndex = -1;
@@ -142,15 +142,15 @@ public class ActionSheetModule extends ReactContextBaseJavaModule {
         builder.setCancelBtn(btnTitles.get(cancelBtnIndex), tintColor);
         btnTitles.remove(cancelBtnIndex);
 
-        if (param.hasKey("description")) {
+        if (param.hasKey("message")) {
 
-            int descriptionHeight = 0;
-            if(param.hasKey("descriptionHeight")) {
-                descriptionHeight = param.getInt("descriptionHeight");
+            int messageHeight = 0;
+            if(param.hasKey("messageHeight")) {
+                messageHeight = param.getInt("messageHeight");
             }
 
-            String description = param.getString("description");
-            builder.setDescription(description, tintColor, descriptionHeight);
+            String message = param.getString("message");
+            builder.setMessage(message, tintColor, messageHeight);
         }
 
         int[] colors = new int[btnTitles.size()];

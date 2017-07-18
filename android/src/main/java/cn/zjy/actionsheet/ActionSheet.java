@@ -34,10 +34,10 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
     public static final String TITLE_COLOR = "title_color";
     public static final String TITLE_TEXT_SIZE = "title_text_size";
 
-    public static final String DESCRIPTION = "description";
-    public static final String DESCRIPTION_COLOR = "description_color";
-    public static final String DESCRIPTION_FONT_SIZE = "description_font_size";
-    public static final String DESCRIPTION_HEIGHT = "description_height";
+    public static final String MESSAGE = "message";
+    public static final String MESSAGE_COLOR = "message_color";
+    public static final String MESSAGE_FONT_SIZE = "message_font_size";
+    public static final String MESSAGE_HEIGHT = "message_height";
 
 
     public static final String CANCEL_BTN_TITLE = "cancel_btn_title";
@@ -130,8 +130,8 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
 
         addTitle(layout);
 
-        // Add description
-        addDescription(layout);
+        // Add message
+        addMessage(layout);
 
         addOtherBtns(layout);
         addCancelBtn(layout);
@@ -169,18 +169,18 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
         layout.addView(tvTitle, lp);
     }
 
-    private void addDescription(LinearLayout layout) {
+    private void addMessage(LinearLayout layout) {
         Bundle args = getArguments();
-        String desc = args.getString(DESCRIPTION);
+        String desc = args.getString(MESSAGE);
         if (TextUtils.isEmpty(desc)) return;
 
-        int titleColor = args.getInt(DESCRIPTION_COLOR, DEFAULT_TITLE_TEXT_COLOR);
-        float textSize = args.getFloat(DESCRIPTION_FONT_SIZE, DEFAULT_TITLE_TEXT_SIZE);
+        int titleColor = args.getInt(MESSAGE_COLOR, DEFAULT_TITLE_TEXT_COLOR);
+        float textSize = args.getFloat(MESSAGE_FONT_SIZE, DEFAULT_TITLE_TEXT_SIZE);
 
-        int descriptionHeight = args.getInt(DESCRIPTION_HEIGHT);
+        int messageHeight = args.getInt(MESSAGE_HEIGHT);
         int bottomMargin = (int) getActivity().getResources().getDimension(R.dimen.action_sheet_btn_gap);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                descriptionHeight);
+                messageHeight);
         lp.bottomMargin = bottomMargin;
 
         int background = R.drawable.action_sheet_other_btns_bg_middle;
@@ -188,14 +188,14 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
         if (titles == null || titles.length == 0) {
             background = R.drawable.action_sheet_other_btns_bg_top;
         }
-        TextView tvDescription = new TextView(getActivity());
-        tvDescription.setPadding(50, 10, 50, 10);
-        tvDescription.setText(desc);
-        tvDescription.setTextSize(textSize);
-        tvDescription.setTextColor(titleColor);
-        tvDescription.setGravity(Gravity.LEFT);
-        tvDescription.setBackgroundResource(background);
-        layout.addView(tvDescription, lp);
+        TextView tvMessage = new TextView(getActivity());
+        tvMessage.setPadding(50, 10, 50, 0);
+        tvMessage.setText(desc);
+        tvMessage.setTextSize(textSize);
+        tvMessage.setTextColor(titleColor);
+        tvMessage.setGravity(Gravity.LEFT);
+        tvMessage.setBackgroundResource(background);
+        layout.addView(tvMessage, lp);
     }
 
     private void addOtherBtns(LinearLayout layout) {
@@ -314,10 +314,10 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
 
     public static class Builder {
         private String mTitle;
-        private String mDescription;
-        private int mDescriptionColor;
-        private float mDescriptionTextSize = -1;
-        private int mDescriptionHeight = 200;
+        private String mMessage;
+        private int mMessageColor;
+        private float mMessageTextSize = -1;
+        private int mMessageHeight = 200;
         private int mTitleColor;
         private float mTitleTextSize = -1;
         private String mCancelBtnTitle;
@@ -338,11 +338,11 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
             return this;
         }
 
-        public Builder setDescription(String description, int descriptionColor, int descriptionHeight) {
-            mDescription = description;
-            mDescriptionColor = descriptionColor;
-            if(descriptionHeight > 0) {
-                mDescriptionHeight = descriptionHeight;
+        public Builder setMessage(String message, int messageColor, int messageHeight) {
+            mMessage = message;
+            mMessageColor = messageColor;
+            if(messageHeight > 0) {
+                mMessageHeight = messageHeight;
             }
 
             return this;
@@ -425,14 +425,14 @@ public class ActionSheet extends DialogFragment implements View.OnClickListener 
             actionSheet.setArguments(bundle);
 
             /**
-             * Description
+             * Message
              */
-            bundle.putString(DESCRIPTION, mDescription);
-            bundle.putInt(DESCRIPTION_COLOR, mDescriptionColor);
-            bundle.putInt(DESCRIPTION_HEIGHT, mDescriptionHeight);
+            bundle.putString(MESSAGE, mMessage);
+            bundle.putInt(MESSAGE_COLOR, mMessageColor);
+            bundle.putInt(MESSAGE_HEIGHT, mMessageHeight);
 
-            if (mDescriptionTextSize > 0) {
-                bundle.putFloat(DESCRIPTION_FONT_SIZE, mDescriptionTextSize);
+            if (mMessageTextSize > 0) {
+                bundle.putFloat(MESSAGE_FONT_SIZE, mMessageTextSize);
             }
 
 
