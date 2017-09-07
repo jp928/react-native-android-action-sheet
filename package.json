@@ -1,5 +1,5 @@
 {
-    "name": "@2hats/react-native-android-action-sheet",
+    "name": "@jp928/react-native-android-action-sheet",
     "version": "0.0.6",
     "description": "ActionSheet on Android for React Native",
     "main": "index.js",
